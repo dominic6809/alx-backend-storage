@@ -20,9 +20,11 @@
   ````
   
   - **Fetch**
+    ```
     FETCH user_cursor INTO userId;
     
   - **Calculation:**
+    ```
       SELECT SUM(c.score * p.weight) INTO total_weighted_score,
           SUM(p.weight) INTO total_weight
       FROM corrections c
@@ -30,6 +32,7 @@
       WHERE c.user_id = userId;
 
 - **Update**
+  ```
     UPDATE users
     SET average_score = total_weighted_score / total_weight
     WHERE id = userId;
@@ -46,5 +49,4 @@ Run the SQL scripts to set up the environment and execute the stored procedure t
 
 ## Conclusion
 Understanding stored procedures and cursor usage is crucial for performing batch operations on database records.
-
 This knowledge is essential for efficiently managing data in relational databases.
