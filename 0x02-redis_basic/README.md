@@ -74,5 +74,3 @@ This project showcases the integration of Redis with Python to create an efficie
 
 - Feel free to modify any sections to better suit your project specifics or personal preferences.
 - You can save this README as `README.md` in your project directory for easy reference. 
-
-Let me know if you need any further changes or additions!
