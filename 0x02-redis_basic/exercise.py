@@ -13,7 +13,7 @@ def count_calls(method: Callable) -> Callable:
     """
     Decorator that counts the number of times a method is called.
 
-    params:
+    Args:
         method (Callable): The method to be decorated.
 
     Returns:
@@ -32,11 +32,8 @@ def count_calls(method: Callable) -> Callable:
         Returns:
             The result of the original method.
         """
-        # Get the qualified name of the method
         key = method.__qualname__
-        # Increment the call count in Redis
         self._redis.incr(key)
-        # Call the original method and return its result
         return method(self, *args, **kwargs)
 
     return wrapper
@@ -65,7 +62,6 @@ def call_history(method: Callable) -> Callable:
         Returns:
             The output of the original method.
         """
-        # Create input and output keys
         input_key = f"{method.__qualname__}:inputs"
         output_key = f"{method.__qualname__}:outputs"
 
@@ -153,3 +149,22 @@ class Cache:
             Optional[int]: The retrieved data as an integer.
         """
         return self.get(key, int)
+
+    def replay(self, method: Callable) -> None:
+        """
+        Displays the history of calls of a particular function.
+
+        Args:
+            method (Callable): The method for which to replay the history.
+        """
+        input_key = f"{method.__qualname__}:inputs"
+        output_key = f"{method.__qualname__}:outputs"
+        
+        inputs = self._redis.lrange(input_key, 0, -1)
+        outputs = self._redis.lrange(output_key, 0, -1)
+
+        call_count = len(inputs)
+        print(f"{method.__qualname__} was called {call_count} times:")
+        
+        for input_value, output_value in zip(inputs, outputs):
+            print(f"{method.__qualname__}(*{input_value.decode('utf-8')}) -> {output_value.decode('utf-8')}")
