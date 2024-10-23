@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""
-A module for fetching web pages with caching and access counting.
-"""
-
+""" module for caching web pages """
 
 from functools import wraps
 import redis
